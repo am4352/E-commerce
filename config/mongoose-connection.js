@@ -1,15 +1,18 @@
 const mongoose = require("mongoose")
+const config = require("config");
+// const dbgr = require("debug")("development:mongoose");
+
 mongoose
-    .connect("mongodb://127.0.0.1:27017/ecommerce")
+    .connect(`${config.get("MONGODB_URI")}/scatch`)// this work on the basic of the environment value , gets value according to that 
     .then(function () {
-    console.log("mongoDB connected successfully");
+        console.log("connected");
+        
     })
     .catch(function (err) {
-        console.log(err);        
+        console.log(err)
     })
 
 module.exports = mongoose.connection;
-
 
 
 

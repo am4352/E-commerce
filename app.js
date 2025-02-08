@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+//test
 const flash = require("connect-flash");
 const multer = require("multer")
 const db = require("./config/mongoose-connection")
@@ -25,7 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs")
 app.use("/owner", ownerRouter);
 app.use("/products", productRouter);
-console.log("test")
 app.use("/users", userRouter);
 app.use("/", indexroutes)
 

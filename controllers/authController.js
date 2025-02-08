@@ -33,16 +33,17 @@ module.exports.registerUser = async function (req, res) {
     } 
 }
 module.exports.loginUser = async function (req, res) {
-    console.log("test1")
     let { email, password } = req.body;
     const user = await userModel.findOne({ email: email });
+    console.log(user)
     if (!user) {
-         return res.send("invalid credentials")        
+         return res.send("invalid credentials ")        
     }
-    const ismatch = bcrypt.compare(password, user.password, function (err, result) {
-       console.log(ismatch)
+    const ismatch = await bcrypt.compare(password, user.password, function (err, result) {
+        const token = generateToken(user);
+        res.cookie("token", token, { httpOnly: true, secure: false });
        if (result) { // should use result parameter
-            return res.send("you can login")
+          return res.render("shop")
        }
        else {
            return res.send("you can not login")

@@ -20,9 +20,7 @@ if (process.env.NODE_ENV === "development")
         res.send(createdOwner);
     })
 }
-router.get("/", function (req, res) {
-    res.send("hello owner");
-})
+
 
 
 console.log(process.env.NODE_ENV);

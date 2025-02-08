@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const flash = require("connect-flash");
+const multer = require("multer")
 const db = require("./config/mongoose-connection")
 const app = express();
 require('dotenv').config();

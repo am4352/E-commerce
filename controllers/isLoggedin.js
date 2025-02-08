@@ -3,8 +3,9 @@ const userModel = require("../models/user-models")
 const generateToken = require("../utils/generateTokens")
 module.exports.isloggedin = async function(req, res , next)
 {
-    if (!req.cookie.token)
+    if (!req.cookies.token)
     {
+        console.log("you need to login first")
         req.flash("you need to login first")
         res.redirect("/")
     }
@@ -12,7 +13,7 @@ module.exports.isloggedin = async function(req, res , next)
         let decoded = jwt.verify(req.cookie.token, process.env.JWT_key);
         let user = userModel
             .findOne({email : decoded.email})
-            .select("-password")
+            .select("-password") //dont select password
         req.user = user;
         next();
     }

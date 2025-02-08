@@ -1,12 +1,12 @@
 const userModel = require("../models/user-models")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
-const { generateToken } = require("../utils/generateTokens")
+const  generateToken  = require("../utils/generateTokens")
 
-module.exports.registerUser = function (req, res) {
+module.exports.registerUser = async function (req, res) {
     try {
         let { email, password, fullname } = req.body;
-        let user = userModel.findOne({email: email})
+        let user = await userModel.findOne({email: email})
         if (user) {
            return res.status(401).send("you already have an account please login");
         }
@@ -17,10 +17,13 @@ module.exports.registerUser = function (req, res) {
                     password: hash,
                     fullname,
                 })
-                generateToken(user)
+                console.log(generateToken);  // Should log a function definition
+
+               const token = generateToken(user)
                 res.cookie("token", token);
                 res.send(token)
-                res.send("user created successfully")
+                console.log("user created successfully");
+                
             });
         });
 
@@ -29,8 +32,22 @@ module.exports.registerUser = function (req, res) {
 
     } 
 }
-module.exports.loginUser = function (req, res) {
-    
+module.exports.loginUser = async function (req, res) {
+    console.log("test1")
+    let { email, password } = req.body;
+    const user = await userModel.findOne({ email: email });
+    if (!user) {
+         return res.send("invalid credentials")        
+    }
+    const ismatch = bcrypt.compare(password, user.password, function (err, result) {
+       console.log(ismatch)
+       if (result) { // should use result parameter
+            return res.send("you can login")
+       }
+       else {
+           return res.send("you can not login")
+       }
+    })
 }
 
 

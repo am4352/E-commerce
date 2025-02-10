@@ -26,14 +26,19 @@ router.get("/addtocart/:productid", isloggedin, async function (req, res) {
 })
 
 router.get("/cart", isloggedin , async function (req, res) {
-    let user = await userModels.findOne({ email: req.user.email }).populate("cart");
-    console.log(user.cart);
-
+    let user = await userModels.findOne({ email: req.user.email }).populate("cart")
     if (!user) {
       return req.flash("error", "user not found");
-    }
-    res.render("cart", { cartItems: user.cart });
+    }   
+    
+    let totalAmount = user.cart.reduce((total, item) => {
+        let itemPrice = Number(item.price) || 0;  // Convert to Number
+        return total + itemPrice;
+    }, 0);
    
+    res.render("cart", { cartItems: user.cart, totalAmount});
+    console.log(totalAmount)
+
 })
 
 module.exports = router;

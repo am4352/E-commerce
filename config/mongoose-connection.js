@@ -5,7 +5,7 @@ const config = require("config");
 mongoose
     .connect(`${config.get("MONGODB_URI")}/scatch`)// this work on the basic of the environment value , gets value according to that 
     .then(function () {
-        console.log("connected");
+        console.log("MONGO-DB connected");
         
     })
     .catch(function (err) {

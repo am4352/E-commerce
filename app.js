@@ -24,10 +24,11 @@ app.use(session({
 }))
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs")
+app.use("/", indexroutes)
 app.use("/owner", ownerRouter);
 app.use("/products", productRouter);
 app.use("/users", userRouter);
-app.use("/", indexroutes)
+
 
 
 

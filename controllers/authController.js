@@ -39,11 +39,13 @@ module.exports.loginUser = async function (req, res) {
     if (!user) {
          return res.send("invalid credentials ")        
     }
-    const ismatch = await bcrypt.compare(password, user.password, function (err, result) {
-        const token = generateToken(user);
-        res.cookie("token", token, { httpOnly: true, secure: false });
-       if (result) { // should use result parameter
-          return res.render("shop")
+    const ismatch = await  bcrypt.compare(password, user.password, function (err, result) {
+      
+        if (result) { // should use result parameter
+            const token = generateToken(user);
+            res.cookie("token", token, { httpOnly: true, secure: false });
+           return res.redirect("/shop");
+
        }
        else {
            return res.send("you can not login")

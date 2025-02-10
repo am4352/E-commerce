@@ -21,9 +21,13 @@ if (process.env.NODE_ENV === "development")
     })
 }
 
+// i made a mistake here i used app insted of router (always remember)
+router.get("/admin", function (req, res) {
+    let success = req.flash("success")
+    res.render("createproducts" , {success})
+})
 
 
-console.log(process.env.NODE_ENV);
 module.exports = router;
 
 
